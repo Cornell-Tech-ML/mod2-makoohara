@@ -391,6 +391,7 @@ class Tensor:
         return Permute.apply(self, *order)
 
     def view(self, *shape: int) -> Tensor:
+        """Change the shape of the tensor to a new shape with the same size"""
         return View.apply(self, tensor(list(shape)))
 
     def zero_grad_(self) -> None:

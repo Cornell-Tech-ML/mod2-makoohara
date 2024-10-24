@@ -41,19 +41,31 @@ variable_count = 1
 
 
 class Variable(Protocol):
-    def accumulate_derivative(self, x: Any) -> None: ...
+    def accumulate_derivative(self, x: Any) -> None:  # pyright: ignore
+        """Accumulates the given derivative `x` into the current node's total derivative."""
+        pass
 
     @property
-    def unique_id(self) -> int: ...
+    def unique_id(self) -> int:  # pyright: ignore
+        """Returns the unique identifier for this variable/node."""
+        pass
 
-    def is_leaf(self) -> bool: ...
+    def is_leaf(self) -> bool:  # pyright: ignore
+        """Determines if the current variable/node is a leaf in the computation graph."""
+        pass
 
-    def is_constant(self) -> bool: ...
+    def is_constant(self) -> bool:  # pyright: ignore
+        """Checks if the variable is a constant."""
+        pass
 
     @property
-    def parents(self) -> Iterable["Variable"]: ...
+    def parents(self) -> Iterable["Variable"]:  # pyright: ignore
+        """Returns the parent variables of this node in the computation graph."""
+        pass
 
-    def chain_rule(self, d_output: Any) -> Iterable[Tuple[Variable, Any]]: ...
+    def chain_rule(self, d_output: Any) -> Iterable[Tuple[Variable, Any]]:  # pyright: ignore
+        """Computes the partial derivatives of input variables using the chain rule."""
+        pass
 
 
 def topological_sort(variable: Variable) -> Iterable[Variable]:
@@ -130,10 +142,12 @@ class Context:
     saved_values: Tuple[Any, ...] = ()
 
     def save_for_backward(self, *values: Any) -> None:
+        """Store the given `values` if they need to be used during backpropagation."""
         if self.no_grad:
             return
         self.saved_values = values
 
     @property
     def saved_tensors(self) -> Tuple[Any, ...]:
+        """Return saved tensors"""
         return self.saved_values
